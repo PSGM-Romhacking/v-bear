@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="18 16 220 220" width="256" height="256">
+  <!-- V-Bear: a Formosan black bear (Taiwan, like the Super A'Can), a little sly: slanted eyelids,
+       a thin smile, and the species' pale V on its chest -->
+  <!-- ears -->
+  <circle cx="60" cy="46" r="30" fill="#151513"/>
+  <circle cx="196" cy="46" r="30" fill="#151513"/>
+  <circle cx="62" cy="48" r="15" fill="#75715e"/>
+  <circle cx="194" cy="48" r="15" fill="#75715e"/>
+  <!-- head and body in one piece -->
+  <path d="M10 256 C20 196 32 156 38 120 C46 52 84 22 128 22 C172 22 210 52 218 120 C224 156 236 196 246 256 Z" fill="#151513"/>
+  <!-- eyes, pupils turned in, half closed by slanted lids -->
+  <circle cx="88" cy="104" r="20" fill="#f8f8f2"/>
+  <circle cx="168" cy="104" r="20" fill="#f8f8f2"/>
+  <circle cx="94" cy="108" r="10" fill="#151513"/>
+  <circle cx="162" cy="108" r="10" fill="#151513"/>
+  <path d="M60 60 L122 60 L122 104 L60 86 Z" fill="#151513"/>
+  <path d="M134 60 L196 60 L196 86 L134 104 Z" fill="#151513"/>
+  <!-- muzzle and nose -->
+  <path d="M128 96 C112 96 106 112 102 130 C96 158 100 182 128 184 C156 182 160 158 154 130 C150 112 144 96 128 96 Z" fill="#6d6660"/>
+  <path d="M112 134 Q128 128 144 134 Q140 150 128 152 Q116 150 112 134 Z" fill="#151513"/>
+  <!-- smile -->
+  <path d="M128 152 L128 162 Q118 170 108 160 M128 162 Q138 170 148 160" stroke="#151513" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- the V on the chest, a crescent -->
+  <path d="M54 200 Q100 192 128 222 Q156 192 202 200 Q162 220 128 248 Q94 220 54 200 Z" fill="#f8f8f2"/>
+</svg>

@@ -1,0 +1,19 @@
+[package]
+name = "v-bear-core"
+description = "V-Bear: Funtech Super A'Can core behind the emu-api contract"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+emu-api.workspace = true
+# 68000 (MIT) and 65C02 (BSD-3-Clause)
+m68k       = { version = "0.14", features = ["serde"] }
+mos6502    = "0.10"
+# save states; the 68000 core serialises itself to JSON
+serde.workspace = true
+serde_json.workspace = true
+bincode    = "1.3.3"
+# loading a ROM or the BIOS from a .zip (command line)
+zip.workspace = true

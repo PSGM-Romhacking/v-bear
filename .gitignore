@@ -1,0 +1,54 @@
+# --- build ---
+target/
+
+# --- test/validation outputs ---
+*.ppm
+*.ram
+/reference/obj_dir/
+/reference/acan-ref
+/reference/*.mem
+
+# --- content that must never be committed: games, BIOS, third-party cores ---
+# Put them in these folders (or anywhere else outside the repo). Commercial ROMs and BIOS
+# belong to their owners; compiled cores keep their own licence.
+/roms/
+/bios/
+/cores/
+/system/
+/saves/
+*.zip
+*.7z
+*.rar
+*.bin
+*.rom
+*.iso
+*.cue
+*.chd
+*.so
+*.dll
+*.dylib
+
+# --- local ---
+.vscode/
+.idea/
+*.swp
+
+# --- V-Bear ---
+# third-party reference sources (MAME, MiSTer), local copies
+/_referencias/
+# the user's ROM folders ("roms - Funtech - Super Acan/")
+/roms */
+# battery saves, save states and captures written next to the ROMs
+*.sav
+*.state
+*.state[0-9]
+# personal comparison tools (MAME), their work folder
+/tools/mame/
+# built executable copied by make
+/v-bear-*-linux-*
+# personal notes and the session resume script
+/Referencias.txt
+/retomar-vbear.sh
+# packaging outputs (packaging/build_linux.sh)
+/build/
+/dist/

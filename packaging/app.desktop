@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=V-Bear
+GenericName=Super A'Can emulator
+GenericName[pt_BR]=Emulador do Super A'Can
+GenericName[es]=Emulador de Super A'Can
+Comment=Funtech Super A'Can emulator
+Comment[pt_BR]=Emulador do Funtech Super A'Can
+Comment[es]=Emulador de Funtech Super A'Can
+Keywords=funtech;super acan;acan;emulator;emulation;retro;games;
+Exec=v-bear %f
+Icon=v-bear
+Type=Application
+Terminal=false
+Categories=Game;Emulator;
+StartupWMClass=v-bear

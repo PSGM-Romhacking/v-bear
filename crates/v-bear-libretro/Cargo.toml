@@ -1,0 +1,17 @@
+[package]
+name = "v-bear-libretro"
+description = "V-Bear as a libretro core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[lib]
+name = "v_bear_libretro"
+crate-type = ["cdylib"]
+
+[dependencies]
+emu-api.workspace = true
+v-bear-core = { path = "../v-bear-core" }
+zip.workspace = true
+sevenz-rust.workspace = true

@@ -1,0 +1,50 @@
+{
+  "boomzoo": {
+    "genre": "Acción",
+    "description": "Al estilo de Bomberman, con animales del zoológico: suelta bombas en un laberinto de bloques para abrirte paso y hacer volar a tus rivales. Uno o dos jugadores."
+  },
+  "formduel": {
+    "genre": "Rompecabezas",
+    "description": "Duelo de piezas que caen, al estilo de Puyo Puyo. El modo historia te enfrenta a doce caricaturas de figuras públicas de Taiwán, con voces en taiwanés (hokkien); también hay un duelo para dos jugadores."
+  },
+  "gamblord": {
+    "genre": "Mahjong",
+    "description": "Mahjong taiwanés de 16 fichas contra tres rivales dibujados como versiones caricaturescas de gente famosa, en juego libre o en una serie de partidas."
+  },
+  "jttlaugh": {
+    "genre": "Plataformas",
+    "description": "Plataformas con humor, inspirado libremente en Viaje al Oeste: Sun Wukong, el Rey Mono, salta y pelea fase tras fase. Suele citarse como el mejor juego de la consola."
+  },
+  "magipool": {
+    "genre": "Billar",
+    "description": "Billar con fotos digitalizadas de los jugadores: un modo historia en un mapa del mundo, además de los modos desafío, enfrentamiento y práctica, para uno o dos jugadores."
+  },
+  "monopoly": {
+    "genre": "Juego de mesa",
+    "description": "Juego de mesa al estilo de Monopoly, en África: construye granjas, canteras y hoteles donde caigas y gasta lo que ganes en provisiones para buscar un tesoro escondido en el centro del tablero. Hasta seis jugadores."
+  },
+  "rebelst": {
+    "genre": "Estrategia",
+    "description": "Estrategia por turnos de ciencia ficción: el 21.º escuadrón rebelde, de robots de combate, se enfrenta al imperio Titán en el mapa. Se terminó pero nunca se vendió: solo existen algunos cartuchos de muestra."
+  },
+  "sangofgt": {
+    "genre": "Lucha",
+    "description": "Lucha uno contra uno con los generales de los Tres Reinos, en los modos arcade y versus, para uno o dos jugadores. Conversión del juego de PC de 1993 de Panda Entertainment."
+  },
+  "speedyd": {
+    "genre": "Plataformas",
+    "description": "Plataformas de desplazamiento lateral y veloz, al estilo de Sonic: un chico con un bate de béisbol corre contra el reloj por seis fases, recogiendo pelotas de béisbol y enfrentando a un jefe al final de cada una, con una fase de bonificación en 3D."
+  },
+  "slghtsag": {
+    "genre": "RPG de estrategia",
+    "description": "RPG táctico al estilo de Shining Force, convertido de un juego de PC taiwanés; la versión de consola añade pueblos explorados desde arriba."
+  },
+  "staiwbbl": {
+    "genre": "Béisbol",
+    "description": "Béisbol con los equipos y jugadores con licencia de la liga profesional de Taiwán (CPBL), grandes animaciones en las jugadas clave y sonido digitalizado del público. Modos temporada, amistoso y juego de estrellas, para uno o dos jugadores; la temporada se guarda en el cartucho."
+  },
+  "sonevil": {
+    "genre": "RPG",
+    "description": "RPG visto desde arriba, pensado como el buque insignia de la consola. Las elecciones en los diálogos, incluso con personajes secundarios, y las decisiones clave cambian la historia y pueden volver al héroe bueno o malvado."
+  }
+}

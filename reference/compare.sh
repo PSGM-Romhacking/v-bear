@@ -1,0 +1,3 @@
+#!/bin/sh
+# See compare.py. Usage: reference/compare.sh [--jobs N] [--bios DIR] [--offset K] [--window W] V-BEAR ROM...
+exec python3 -I "$(dirname "$0")/compare.py" "$@"

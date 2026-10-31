@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compatibility · V-Bear</title>
+<meta name="description" content="V-Bear: a Funtech Super A'Can emulator written in Rust, with a libretro core for RetroArch.">
+<meta property="og:title" content="V-Bear: Funtech Super A'Can emulator">
+<meta property="og:description" content="Funtech Super A'Can emulator in Rust. All 12 games, battery saves, Linux and RetroArch.">
+<meta property="og:image" content="img/library-covers.png">
+<link rel="icon" href="img/v-bear.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="img/v-bear.svg" alt="" width="30" height="30"> V-Bear</a>
+    <nav>
+      <a class="hide-sm" href="index.html#download" data-i18n="nav_download">Download</a>
+      <a class="hide-sm" href="index.html#bios">BIOS</a>
+      <a class="hide-sm" href="index.html#features" data-i18n="nav_features">Features</a>
+      <a class="hide-sm" href="index.html#compat" data-i18n="nav_compat">Compatibility</a>
+      <a class="hide-sm" href="index.html#screens" data-i18n="nav_screens">Screenshots</a>
+      <a href="https://github.com/PSGM-Romhacking/v-bear">GitHub</a>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="pt">PT</button>
+        <button type="button" data-lang="es">ES</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+  <section id="compat" class="compat-page">
+    <h2 data-i18n="compat_title">Compatibility</h2>
+    <p class="sub" data-i18n="compat_sub">All 12 games boot and play with the BIOS.</p>
+    <div class="stats compat-stats">
+      <div><b>12/12</b><span data-i18n="compat_s1">playable</span></div>
+      <div><b>2/6</b><span data-i18n="compat_s3">battery saves confirmed</span></div>
+    </div>
+    <input id="compat-q" class="search" type="search" placeholder="Search by name, developer or CRC" data-i18n-ph="compat_search" autocomplete="off">
+    <div class="tablewrap"><table class="games">
+      <thead><tr><th data-i18n="compat_c_game">Title</th><th>CRC32</th><th data-i18n="compat_c_year">Year</th><th data-i18n="compat_c_players">Players</th><th data-i18n="compat_c_save">Battery save</th><th data-i18n="compat_c_status">Status</th></tr></thead>
+      <tbody id="compat-body">
+        <tr data-q="boom zoo bao bao dong wu yuan funtech 6099bb44"><td class="t">Boom Zoo<small>Bao Bao Dong Wu Yuan · Funtech</small></td><td class="m">6099bb44</td><td>1996</td><td>1–2</td><td><span class="dash">—</span></td><td><span class="ok" data-i18n="compat_ok">✓ Playable</span></td></tr>
+        <tr data-q="formosa duel formosa da dui jue av artisan b2bf31dc"><td class="t">Formosa Duel<small>Formosa Da Dui Jue · AV Artisan</small></td><td class="m">b2bf31dc</td><td>1995</td><td>1–2</td><td><span class="dash">—</span></td><td><span class="ok" data-i18n="compat_ok">✓ Playable</span></td></tr>
+        <tr data-q="gambling lord du ba panda entertainment technology / funtech ac4fa721"><td class="t">Gambling Lord<small>Du Ba · Panda Entertainment Technology / Funtech</small></td><td class="m">ac4fa721</td><td>1996</td><td>1</td><td><span data-i18n="sr_unc">Unconfirmed</span></td><td><span class="ok" data-i18n="compat_ok">✓ Playable</span></td></tr>
+        <tr data-q="journey to the laugh xi you ji funtech cee25eea"><td class="t">Journey to the Laugh<small>Xi You Ji · Funtech</small></td><td class="m">cee25eea</td><td>1995</td><td>1</td><td><span class="dash">—</span></td><td><span class="ok" data-i18n="compat_ok">✓ Playable</span></td></tr>
+        <tr data-q="magical pool mo bang zhuang qiu funtech aed4e4f8"><td class="t">Magical Pool<small>Mo Bang Zhuang Qiu · Funtech</small></td><td class="m">aed4e4f8</td><td>1996</td><td>1–2</td><td><span class="dash">—</span></td><td><span class="ok" data-i18n="compat_ok">✓ Playable</span></td></tr>
+        <tr data-q="monopoly: adventure in africa fei zhou tan xian da fu weng panda entertainment technology dc3b7b84"><td class="t">Monopoly: Adventure in Africa<small>Fei Zhou Tan Xian Da Fu Weng · Panda Entertainment Technology</small></td><td class="m">dc3b7b84</td><td>1995</td><td>1–6</td><td><span data-i18n="sr_yes">Yes, to test</span></td><td><span class="ok" data-i18n="compat_ok">✓ Playable</span></td></tr>
+        <tr data-q="rebel star pan xing horng shen information 9e243c91 a3469172"><td class="t">Rebel Star<small>Pan Xing · Horng Shen Information</small></td><td class="m">9e243c91</td><td>1996</td><td>1</td><td><span data-i18n="sr_yes">Yes, to test</span></td><td><span class="ok" data-i18n="compat_ok">✓ Playable</span></td></tr>
+        <tr data-q="sango fighter wu jiang zheng ba - san guo zhi panda entertainment technology a4de6dde"><td class="t">Sango Fighter<small>Wu Jiang Zheng Ba - San Guo Zhi · Panda Entertainment Technology</small></td><td class="m">a4de6dde</td><td>1995</td><td>1–2</td><td><span class="dash">—</span></td><td><span class="ok" data-i18n="compat_ok">✓ Playable</span></td></tr>
+        <tr data-q="speedy dragon yin su fei long av artisan f631383c"><td class="t">Speedy Dragon<small>Yin Su Fei Long · AV Artisan</small></td><td class="m">f631383c</td><td>1995</td><td>1</td><td><span class="dash">—</span></td><td><span class="ok" data-i18n="compat_ok">✓ Playable</span></td></tr>
+        <tr data-q="super dragon force chao ji guang ming zhan shi kingformation c4fe1ca1"><td class="t">Super Dragon Force<small>Chao Ji Guang Ming Zhan Shi · Kingformation</small></td><td class="m">c4fe1ca1</td><td>1996</td><td>1</td><td><span data-i18n="sr_yes">Yes, to test</span></td><td><span class="ok" data-i18n="compat_ok">✓ Playable</span></td></tr>
+        <tr data-q="super taiwanese baseball league chao ji zhong hua zhi bang lian meng quan wei technology (c&amp;e) ccf6829b"><td class="t">Super Taiwanese Baseball League<small>Chao Ji Zhong Hua Zhi Bang Lian Meng · Quan Wei Technology (C&amp;E)</small></td><td class="m">ccf6829b</td><td>1995</td><td>1–2</td><td><span class="ok" data-i18n="sr_ok">✓ Tested</span></td><td><span class="ok" data-i18n="compat_ok">✓ Playable</span></td></tr>
+        <tr data-q="the son of evil xie e zhi zi funtech 9f6119a7"><td class="t">The Son of Evil<small>Xie E Zhi Zi · Funtech</small></td><td class="m">9f6119a7</td><td>1995</td><td>1</td><td><span class="ok" data-i18n="sr_ok">✓ Tested</span></td><td><span class="ok" data-i18n="compat_ok">✓ Playable</span></td></tr>
+      </tbody>
+    </table></div>
+    <p id="compat-empty" class="sub" hidden data-i18n="compat_none">No game found.</p>
+    <p class="sub" style="margin-top:12px" data-i18n="compat_crc">CRC32 of the No-Intro dumps. Rebel Star is also recognised in the byte order of older copies (a3469172).</p>
+  </section>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p data-i18n="foot_lic">Free software under GPL-3.0 or later.</p>
+    <p data-i18n="foot_tm">Super A'Can is a trademark of its owners. V-Bear is not affiliated with Funtech.</p>
+  </div>
+</footer>
+
+<script src="i18n.js"></script>
+<script src="compat.js"></script>
+</body>
+</html>

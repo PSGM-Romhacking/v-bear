@@ -1,0 +1,20 @@
+[package]
+name = "v-bear"
+description = "V-Bear: Funtech Super A'Can emulator (v-bear-core + emu-frontend)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "v-bear"
+path = "src/main.rs"
+
+[dependencies]
+emu-api.workspace = true
+v-bear-core = { path = "../v-bear-core" }
+emu-frontend.workspace = true
+eframe.workspace = true
+egui.workspace = true
+# PNG captures in the command-line mode
+image.workspace = true

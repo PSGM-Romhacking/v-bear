@@ -1,0 +1,148 @@
+# Builds and publishes a release on each version tag (v0.5.0, v1.0.0…):
+#   - runs the tests;
+#   - Linux: the AppImage (+ .zsync, for AppImage updaters) and the libretro core (.so);
+#   - Windows: the .exe and the libretro core (.dll), cross-compiled with MinGW;
+#   - FreeBSD: the program and the libretro core (.so), built in a FreeBSD 14.3 VM
+#     (runs on 14.x and newer);
+#   - attaches everything, with SHA256SUMS, to the GitHub release, whose notes are the
+#     version's section of CHANGELOG.md ("## [0.5.0] …").
+# Based on Mil Capivaras' release.yml.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch: # build only (no release), to check the workflow
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Dependencies
+        run: sudo apt-get update && sudo apt-get install -y libasound2-dev
+      # tests that need a ROM and the BIOS (V_BEAR_TEST_ROM, V_BEAR_TEST_BIOS) skip themselves
+      - run: cargo test --workspace --release
+
+  linux:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev zsync libfuse2
+          pip install ziglang
+          cargo install cargo-zigbuild --locked
+      - name: Linux build (AppImage and libretro core)
+        # the repository's name goes in the AppImage, so updaters find the next releases
+        env:
+          GH_USER: ${{ github.repository_owner }}
+          GH_REPO: ${{ github.event.repository.name }}
+        run: packaging/build_linux.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: |
+            dist/*.AppImage
+            dist/*.AppImage.zsync
+            dist/v_bear_libretro.so
+
+  windows:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-gnu
+      - name: Dependencies
+        run: sudo apt-get update && sudo apt-get install -y gcc-mingw-w64-x86-64 binutils-mingw-w64-x86-64
+      - name: Windows build
+        run: packaging/build_windows.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: |
+            dist/*.exe
+            dist/v_bear_libretro.dll
+
+  freebsd:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: FreeBSD build (14.3 VM)
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "14.3"
+          usesh: true
+          mem: 6144
+          prepare: |
+            pkg install -y curl pkgconf alsa-lib libxkbcommon wayland gtk3 rustup-init
+          run: |
+            # rustup, not pkg's rust: the same stable toolchain as the other jobs
+            rustup-init -y --profile minimal
+            . "$HOME/.cargo/env"
+            cargo build --release -p v-bear -p v-bear-libretro
+            mkdir -p dist
+            cp target/release/v-bear dist/v-bear-freebsd
+            cp target/release/libv_bear_libretro.so dist/v_bear_libretro.so
+      - uses: actions/upload-artifact@v4
+        with:
+          name: freebsd
+          path: |
+            dist/v-bear-freebsd
+            dist/v_bear_libretro.so
+
+  release:
+    needs: [linux, windows, freebsd]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Package
+        run: |
+          VERSION="$(sed -n '/^\[workspace.package\]/,/^\[/ s/^version *= *"\(.*\)"/\1/p' Cargo.toml | head -1)"
+          INFO=crates/v-bear-libretro/v_bear_libretro.info
+          mkdir -p out core-linux core-windows core-freebsd
+          cp artifacts/linux/*.AppImage artifacts/linux/*.AppImage.zsync artifacts/windows/*.exe out/
+          cp artifacts/linux/v_bear_libretro.so "$INFO" core-linux/
+          cp artifacts/windows/v_bear_libretro.dll "$INFO" core-windows/
+          cp artifacts/freebsd/v_bear_libretro.so "$INFO" core-freebsd/
+          (cd core-linux && zip -9 "../out/v_bear_libretro-${VERSION}-linux-x86_64.zip" *)
+          (cd core-windows && zip -9 "../out/v_bear_libretro-${VERSION}-windows-x86_64.zip" *)
+          (cd core-freebsd && zip -9 "../out/v_bear_libretro-${VERSION}-freebsd-x86_64.zip" *)
+          # the FreeBSD program in a .tar.gz, which keeps the execute permission
+          mkdir -p "v-bear-${VERSION}-freebsd-x86_64"
+          cp artifacts/freebsd/v-bear-freebsd "v-bear-${VERSION}-freebsd-x86_64/v-bear"
+          chmod +x "v-bear-${VERSION}-freebsd-x86_64/v-bear"
+          tar -czf "out/v-bear-${VERSION}-freebsd-x86_64.tar.gz" "v-bear-${VERSION}-freebsd-x86_64"
+          chmod +x out/*.AppImage
+          (cd out && sha256sum * > SHA256SUMS)
+          # release notes: this version's section of CHANGELOG.md
+          awk -v v="$VERSION" '$0 ~ "^## \\[" v "\\]" {on=1; next} /^## \[/ {on=0} on' CHANGELOG.md > notes.md
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          ls -la out
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" out/* --title "V-Bear ${VERSION}" --notes-file notes.md
+      - name: Keep the files (manual run)
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-files
+          path: out/*

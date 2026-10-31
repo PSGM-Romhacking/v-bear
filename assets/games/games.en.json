@@ -1,0 +1,50 @@
+{
+  "boomzoo": {
+    "genre": "Action",
+    "description": "A Bomberman-style game with zoo animals: drop bombs in a maze of blocks to clear the way and blast your rivals. One or two players."
+  },
+  "formduel": {
+    "genre": "Puzzle",
+    "description": "A Puyo Puyo-style falling-piece duel. The story mode pits you against twelve caricatures of Taiwanese public figures, with voices in Taiwanese Hokkien; there is also a two-player duel."
+  },
+  "gamblord": {
+    "genre": "Mahjong",
+    "description": "Taiwanese 16-tile mahjong against three opponents drawn as cartoon versions of well-known people, in free play or a series of matches."
+  },
+  "jttlaugh": {
+    "genre": "Platform",
+    "description": "A humorous platform game loosely based on Journey to the West: Sun Wukong, the Monkey King, jumps and fights his way through the stages. Often named the best game on the console."
+  },
+  "magipool": {
+    "genre": "Pool",
+    "description": "Pool with digitized photos of the players: a story mode across a world map, plus challenge, versus and practice modes, for one or two players."
+  },
+  "monopoly": {
+    "genre": "Board game",
+    "description": "A Monopoly-style board game set in Africa: build farms, quarries and hotels where you land, and spend the income on supplies for the hunt for a treasure hidden in the middle of the board. Up to six players."
+  },
+  "rebelst": {
+    "genre": "Strategy",
+    "description": "Turn-based science-fiction strategy: the rebel 21st squad of battle mechs fights the Titan empire across the map. Finished but never sold: only a few sample cartridges exist."
+  },
+  "sangofgt": {
+    "genre": "Fighting",
+    "description": "One-on-one fighting with the generals of the Three Kingdoms, in arcade and versus modes for one or two players. A port of Panda Entertainment's 1993 PC game."
+  },
+  "speedyd": {
+    "genre": "Platform",
+    "description": "A fast side-scrolling platform game in the style of Sonic: a boy with a baseball bat dashes through six stages against the clock, collecting baseballs and facing a boss at the end of each, with a 3D bonus stage."
+  },
+  "slghtsag": {
+    "genre": "Strategy RPG",
+    "description": "A tactical role-playing game in the style of Shining Force, converted from a Taiwanese PC game; the console version adds towns explored from above."
+  },
+  "staiwbbl": {
+    "genre": "Baseball",
+    "description": "Baseball with the licensed teams and players of Taiwan's professional league (CPBL), big animations on key plays and digitized crowd sound. Season, exhibition and all-star modes for one or two players; the season is saved on the cartridge."
+  },
+  "sonevil": {
+    "genre": "RPG",
+    "description": "A role-playing game seen from above, meant as the console's flagship. Dialogue choices, even with minor characters, and key decisions shape the story and can make the hero good or evil."
+  }
+}

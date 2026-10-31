@@ -1,0 +1,146 @@
+/* The emulator's own palette (crates/frontend/src/theme.rs): dark grays, color only on the
+   main buttons; square corners everywhere. */
+:root {
+  --bg: #282828;
+  --bg2: #303030;
+  --fg: #dcdcdc;
+  --muted: #848484;
+  --section: #b8b8b8;
+  --accent: #3c5882;
+  --accent-fg: #dcdcdc;
+  --border: #3d3d3d;
+}
+* { box-sizing: border-box; border-radius: 0; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+a { color: var(--section); }
+a:hover { color: var(--fg); }
+.wrap { max-width: 1140px; margin: 0 auto; padding: 0 16px; }
+
+header.top {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+header.top .wrap { display: flex; align-items: center; gap: 16px; height: 56px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--fg); text-decoration: none; }
+.brand img { width: 30px; height: 30px; }
+nav { margin-left: auto; display: flex; gap: 18px; align-items: center; }
+nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+nav a:hover { color: var(--fg); }
+.lang { display: flex; gap: 4px; }
+.lang button {
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  padding: 2px 8px; font: inherit; font-size: 12px; cursor: pointer;
+}
+.lang button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+
+.hero { padding: 64px 0 40px; text-align: center; }
+.hero h1 { font-size: clamp(2rem, 6vw, 3.4rem); margin: 0 0 12px; line-height: 1.15; }
+.hero p.lead { max-width: 680px; margin: 0 auto 28px; color: var(--muted); font-size: 1.15rem; }
+.btns { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.btn {
+  display: inline-block; padding: 10px 20px; font-weight: 600;
+  text-decoration: none; border: 1px solid var(--border); color: var(--fg); background: var(--bg2);
+}
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.15); }
+.hero .shot { margin: 44px auto 0; max-width: 1080px; }
+.shot img { width: 100%; height: auto; display: block; border: 1px solid var(--border); }
+
+section { padding: 48px 0; }
+section h2 { font-size: 1.7rem; margin: 0 0 8px; }
+section .sub { color: var(--muted); margin: 0 0 28px; }
+
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.grid.two { grid-template-columns: repeat(2, 1fr); }
+.card { background: var(--bg2); border: 1px solid var(--border); padding: 18px; }
+.card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+.card p { margin: 0; color: var(--muted); font-size: .95rem; }
+.card p + p { margin-top: 8px; }
+.card .more { display: inline-block; margin-top: 10px; font-size: .9rem; text-decoration: none; }
+.card .more:hover { text-decoration: underline; }
+
+.stats { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); text-align: center; }
+.stats b { display: block; font-size: 2rem; color: var(--section); }
+.stats b.ico { display: flex; justify-content: center; gap: 14px; height: 2.4rem; }
+.ico svg { width: 2rem; height: 2rem; fill: var(--section); }
+.stats span { color: var(--muted); font-size: .9rem; }
+
+/* the BIOS files */
+table.bios td { font-weight: 400; }
+table.bios .m { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--muted); margin-left: 8px; }
+
+.gallery { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.gallery figure { margin: 0; }
+.gallery a { display: block; }
+.gallery img { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; object-position: top; display: block; border: 1px solid var(--border); }
+.gallery figcaption { color: var(--muted); font-size: .85rem; margin-top: 6px; }
+
+table { width: 100%; border-collapse: collapse; background: var(--bg2); border: 1px solid var(--border); }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: .95rem; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 600; white-space: nowrap; }
+.tablewrap { overflow-x: auto; }
+code { background: var(--bg2); border: 1px solid var(--border); padding: 1px 6px; font-size: .9em; }
+
+footer { border-top: 1px solid var(--border); padding: 28px 0 40px; color: var(--muted); font-size: .9rem; text-align: center; }
+footer p { margin: 4px 0; }
+
+.compat-stats { margin-bottom: 20px; }
+.search {
+  width: 100%; margin-bottom: 14px; padding: 10px 14px; font: inherit;
+  background: var(--bg2); color: var(--fg); border: 1px solid var(--border);
+}
+.search:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.games th { background: var(--bg); color: var(--muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
+.games td { vertical-align: top; }
+.games td.t { font-weight: 600; min-width: 230px; white-space: normal; }
+.games td.t small { display: block; color: var(--muted); font-weight: 400; font-size: .8rem; }
+.games td.m { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85rem; color: var(--muted); white-space: nowrap; }
+.games td.n { color: var(--muted); font-size: .85rem; min-width: 220px; }
+.games td:nth-child(3), .games td:nth-child(4), .games td:nth-child(6) { white-space: nowrap; }
+.games td.n { min-width: 280px; }
+.games .ok { color: var(--section); font-weight: 600; }
+.games .dash { color: var(--muted); }
+.games tbody tr:hover { background: color-mix(in srgb, var(--fg) 4%, transparent); }
+
+/* what is new in this version, in the download section */
+.changes { margin-top: 24px; }
+.changes h3 { margin: 0 0 8px; font-size: 1rem; }
+.changes h3 small { color: var(--muted); font-weight: 400; margin-left: 6px; }
+.changes ul { margin: 0; padding-left: 20px; color: var(--muted); }
+.changes li { margin: 4px 0; }
+
+@media (max-width: 640px) {
+  nav a.hide-sm { display: none; }
+  .grid.two { grid-template-columns: 1fr; }
+}
+
+/* one card per game in the compatibility section: the game's screen and its data */
+.games-grid { display: grid; gap: 16px; grid-template-columns: repeat(3, 1fr); }
+.game { margin: 0; background: var(--bg2); border: 1px solid var(--border); }
+.game img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; image-rendering: pixelated; border-bottom: 1px solid var(--border); }
+.game figcaption { padding: 10px 12px 12px; font-size: .85rem; color: var(--muted); }
+.game figcaption b { display: block; color: var(--fg); font-size: .95rem; margin-bottom: 2px; }
+.game figcaption small, .game .sv { display: block; font-size: .8rem; }
+.game .n { display: block; margin-top: 6px; }
+.game .st { display: block; font-size: .8rem; font-weight: 600; color: var(--section); margin-bottom: 4px; }
+.game .st::before { content: "● "; }
+@media (max-width: 640px) { .games-grid { grid-template-columns: 1fr 1fr; } }
+table.dl td { vertical-align: middle; }
+table.dl td:first-child { font-weight: 600; white-space: nowrap; }
+table.dl .btn { padding: 6px 14px; margin: 2px 4px 2px 0; font-size: .9rem; }
+table.dl .n { font-size: .85rem; color: var(--muted); }
+table.bios td.m { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--muted); text-align: right; white-space: nowrap; }
+table.bios code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+table.bios th { font-size: .72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; text-align: right; padding: 6px 12px; }
+table.bios th:first-child { text-align: left; }
+table.bios th, table.bios td { padding-left: 10px; padding-right: 10px; }

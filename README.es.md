@@ -13,6 +13,9 @@ completa:
 
 También se distribuye como **núcleo libretro**, para RetroArch.
 
+**Hecho con IA:** el código y esta documentación se escribieron con Claude Code (modelos
+Claude Opus 5.5 y Claude Sonnet 5.5), con dirección, pruebas y revisión del autor.
+
 **El nombre:** el oso negro de Formosa, de Taiwán, tiene una V blanca en el pecho. V-Bear es ese oso.
 
 ![Biblioteca con carátulas](screenshots/library-covers.png)

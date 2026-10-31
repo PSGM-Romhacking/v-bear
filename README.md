@@ -13,6 +13,9 @@ interface:
 
 It also ships as a **libretro core**, for RetroArch.
 
+**Made with AI:** the code and this documentation were written with Claude Code (models
+Claude Opus 5.5 and Claude Sonnet 5.5), directed, tested and reviewed by the author.
+
 **The name:** the Formosan black bear, from Taiwan, has a white V on its chest. V-Bear is that bear.
 
 ![Library with box art](screenshots/library-covers.png)

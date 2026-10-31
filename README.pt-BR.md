@@ -13,6 +13,9 @@ completa:
 
 Também é distribuído como **núcleo libretro**, para o RetroArch.
 
+**Feito com IA:** o código e esta documentação foram escritos com o Claude Code (modelos
+Claude Opus 5.5 e Claude Sonnet 5.5), com direção, testes e revisão do autor.
+
 **O nome:** o urso-negro-de-Formosa, de Taiwan, tem um V branco no peito. O V-Bear é esse urso.
 
 ![Biblioteca com capas](screenshots/library-covers.png)

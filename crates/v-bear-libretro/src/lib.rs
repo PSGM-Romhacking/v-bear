@@ -540,11 +540,15 @@ pub extern "C" fn retro_run() {
 
 // ------------------------------------------------------------ save states
 
-/// Size of a state: fixed for a given build (RetroArch also uses it for rewind,
-/// run-ahead and netplay).
+/// Size of a state, always the same while a game is loaded: libretro requires that the size
+/// never grows (RetroArch asks once and sizes its rewind buffer from the answer). The real
+/// state is 267,2xx bytes and varies by about 150 bytes (the CPU is saved as text), so a state is
+/// padded with zeros up to this size; the measured maximum over the 12 games is 267,322.
+const STATE_SIZE: usize = 272 * 1024;
+
 #[unsafe(no_mangle)]
 pub extern "C" fn retro_serialize_size() -> usize {
-    with(|s| s.core.as_ref().map_or(0, |c| c.save_state().len()))
+    with(|s| if s.core.is_some() { STATE_SIZE } else { 0 })
 }
 
 /// # Safety
@@ -554,10 +558,12 @@ pub unsafe extern "C" fn retro_serialize(data: *mut c_void, size: usize) -> bool
     with(|s| {
         let Some(c) = &s.core else { return false };
         let st = c.save_state();
-        if data.is_null() || size < st.len() {
+        if data.is_null() || size < STATE_SIZE || st.len() > STATE_SIZE {
             return false;
         }
-        unsafe { std::ptr::copy_nonoverlapping(st.as_ptr(), data.cast::<u8>(), st.len()) };
+        let out = unsafe { std::slice::from_raw_parts_mut(data.cast::<u8>(), size) };
+        out[..st.len()].copy_from_slice(&st);
+        out[st.len()..].fill(0);
         true
     })
 }
@@ -617,7 +623,16 @@ mod tests {
     static FRAME: StdMutex<Vec<u32>> = StdMutex::new(Vec::new());
     static PRESS_START: StdMutex<bool> = StdMutex::new(false);
 
-    unsafe extern "C" fn env(cmd: c_uint, _data: *mut c_void) -> bool {
+    /// The system folder, where the core looks for the BIOS: V_BEAR_TEST_BIOS (the folder with the
+    /// four files, as in the contract test).
+    static SYSTEM_DIR: std::sync::OnceLock<CString> = std::sync::OnceLock::new();
+
+    unsafe extern "C" fn env(cmd: c_uint, data: *mut c_void) -> bool {
+        if cmd == ENV_GET_SYSTEM_DIRECTORY {
+            let Some(dir) = std::env::var("V_BEAR_TEST_BIOS").ok().and_then(|d| CString::new(d).ok()) else { return false };
+            unsafe { *data.cast::<*const c_char>() = SYSTEM_DIR.get_or_init(|| dir).as_ptr() };
+            return true;
+        }
         cmd == ENV_SET_PIXEL_FORMAT || cmd == ENV_SET_INPUT_DESCRIPTORS
     }
     unsafe extern "C" fn video(data: *const c_void, w: c_uint, h: c_uint, pitch: usize) {
@@ -650,6 +665,14 @@ mod tests {
         assert!(unsafe { retro_load_game(&game) });
 
         let mut direct = (INFO.create)(SAMPLE_RATE);
+        let files: Vec<Vec<u8>> = std::fs::read_dir(std::env::var("V_BEAR_TEST_BIOS").unwrap())
+            .unwrap()
+            .flatten()
+            .map(|e| std::fs::read(e.path()).unwrap())
+            .collect();
+        let slots: Vec<Option<Vec<u8>>> =
+            INFO.bios.iter().map(|b| files.iter().find(|f| emu_api::crc32(f) == b.crc32).cloned()).collect();
+        direct.set_bios(&slots);
         direct.load(&rom).unwrap();
         for n in 0..300 {
             let start = (60..70).contains(&n);
@@ -663,12 +686,14 @@ mod tests {
 
         // save, run on, restore, run on again: same frame
         let size = retro_serialize_size();
+        assert_eq!(size, STATE_SIZE);
         let mut st = vec![0u8; size];
         assert!(unsafe { retro_serialize(st.as_mut_ptr().cast(), size) });
         for _ in 0..60 {
             retro_run();
         }
         let after = FRAME.lock().unwrap().clone();
+        assert_eq!(retro_serialize_size(), size, "the state size must not change");
         assert!(unsafe { retro_unserialize(st.as_ptr().cast(), size) });
         for _ in 0..60 {
             retro_run();

@@ -73,6 +73,11 @@ gratis si el estado es **completo, determinista y de tamaño fijo**. Todo campo 
 en el core debe entrar en el snapshot, y la prueba "guardar → ejecutar → restaurar → ejecutar da
 la misma imagen y RAM" debe seguir pasando.
 
+**El tamaño nunca puede crecer** mientras hay un juego cargado (regla de libretro: RetroArch pregunta una vez y
+dimensiona el búfer de rewind con la respuesta). El estado real de V-Bear mide unos 267 KB y varía unos 150 bytes de
+un cuadro a otro (la CPU se guarda como texto), así que el core siempre informa 272 KiB y rellena el estado con ceros;
+un estado mayor se rechaza. El mayor medido, en los 12 juegos y 4.000 cuadros cada uno, es 267.322 bytes.
+
 ## El archivo `.info`
 
 RetroArch necesita `v_bear_libretro.info` junto al core (o en su carpeta de info) para listarlo
@@ -83,7 +88,7 @@ El de V-Bear (`crates/v-bear-libretro/v_bear_libretro.info`) tiene `display_name
 `database = "Funtech - Super Acan"` (el nombre del conjunto No-Intro copiado en libretro-database),
 `supported_extensions = "bin|can|zip|7z"`, `license = "GPLv3"`, `needs_fullpath = "true"` (el core lee el archivo por sí mismo),
 `database_match_archive_member = "true"` (la lista conserva el `.zip` o `.7z`, que Super Dragon Force necesita),
-`savestate = "true"`, `cheats = "false"` y `core_options = "false"`, una `description` corta, y lista los cuatro
+`savestate = "true"`, `savestate_features = "serialized"` (con `"basic"` RetroArch se niega a rebobinar), `cheats = "false"` y `core_options = "false"`, una `description` corta, y lista los cuatro
 archivos de BIOS como `firmware0` a `firmware3`, con rutas `supracan/<archivo>`. No se probó si el escáner de contenido de
 RetroArch reconoce los juegos a través de esa base de datos.
 

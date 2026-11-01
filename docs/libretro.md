@@ -73,6 +73,11 @@ them for free if the state is **complete, deterministic and of fixed size**. Any
 field in the core must go into the snapshot, and the test "save → run → restore → run gives
 the same picture and RAM" must keep passing.
 
+**The size must never grow** while a game is loaded (libretro's rule: RetroArch asks once and sizes its
+rewind buffer from the answer). V-Bear's real state is about 267 KB and varies by about 150 bytes from one frame to
+the next (the CPU is saved as text), so the core always reports 272 KiB and pads the state with zeros; a state
+larger than that is refused. The largest measured, over the 12 games and 4,000 frames each, is 267,322 bytes.
+
 ## The `.info` file
 
 RetroArch needs `v_bear_libretro.info` next to the core (or in its info folder) to list it
@@ -83,7 +88,7 @@ The V-Bear one (`crates/v-bear-libretro/v_bear_libretro.info`) has `display_name
 `database = "Funtech - Super Acan"` (the name of the No-Intro set copied in libretro-database),
 `supported_extensions = "bin|can|zip|7z"`, `license = "GPLv3"`, `needs_fullpath = "true"` (the core reads the file itself),
 `database_match_archive_member = "true"` (the playlist keeps the `.zip` or `.7z`, which Super Dragon Force needs),
-`savestate = "true"`, `cheats = "false"` and `core_options = "false"`, a short `description`, and lists the four
+`savestate = "true"`, `savestate_features = "serialized"` (with `"basic"` RetroArch refuses to rewind), `cheats = "false"` and `core_options = "false"`, a short `description`, and lists the four
 BIOS files as `firmware0` to `firmware3`, with `supracan/<file>` paths. Whether RetroArch's content scanner
 recognizes the games through that database was not tested.
 

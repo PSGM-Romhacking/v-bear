@@ -803,11 +803,11 @@ dependencies = [
 
 [[package]]
 name = "emu-api"
-version = "0.5.0"
+version = "0.5.1"
 
 [[package]]
 name = "emu-frontend"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "cpal",
  "eframe",
@@ -1515,7 +1515,7 @@ dependencies = [
 
 [[package]]
 name = "libretro-host"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "emu-api",
  "libloading",
@@ -1523,7 +1523,7 @@ dependencies = [
 
 [[package]]
 name = "libretro-player"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "eframe",
  "egui",
@@ -2990,7 +2990,7 @@ dependencies = [
 
 [[package]]
 name = "toy"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "eframe",
  "egui",
@@ -3001,14 +3001,14 @@ dependencies = [
 
 [[package]]
 name = "toy-core"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "emu-api",
 ]
 
 [[package]]
 name = "toy-libretro"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "emu-api",
  "toy-core",
@@ -3105,7 +3105,7 @@ dependencies = [
 
 [[package]]
 name = "v-bear"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "eframe",
  "egui",
@@ -3117,7 +3117,7 @@ dependencies = [
 
 [[package]]
 name = "v-bear-core"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "bincode",
  "emu-api",
@@ -3130,7 +3130,7 @@ dependencies = [
 
 [[package]]
 name = "v-bear-libretro"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "emu-api",
  "sevenz-rust",

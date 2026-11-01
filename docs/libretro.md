@@ -10,12 +10,12 @@ What was tested:
 
 - **Windows:** run by hand in RetroArch. The core loads, the BIOS is found in `system/supracan/`, and
   `.bin`, `.can`, `.zip` and `.7z` games open from the content loader.
-- **Linux:** the `.so` was driven by a program that plays RetroArch's part through the C API (BIOS lookup,
-  `retro_run`, a ~267 KB save-state round trip, the 32 KB battery RAM). It was not run inside RetroArch.
-It was not run inside RetroArch. The same program checks that the BIOS is found in
+- **Linux:** the `.so` was driven by a program that
+  plays RetroArch's part through the C API (BIOS lookup, `retro_run`, a ~267 KB save-state round trip, the 32 KB
+  battery RAM). The same program checks that the BIOS is found in
   `system/supracan/`, `system/superacan/` and `system/SuperAcan/`, loose, in a `.zip` and in a `.7z`, and that
   Super Dragon Force (two parts, in a `.zip` or `.7z`) loads and shows the same picture as the joined file.
-- **FreeBSD and macOS:** the core compiles for both, but it was never run, and there is no macOS release.
+- **FreeBSD and macOS:** the FreeBSD core is built by the release pipeline; there is no macOS release.
 - The picture, the sound and the frame rate were not compared between the core and the standalone app;
   the core reports the same 320 × 240 picture, 4:3 aspect and 59.92 fps as the app (`INFO`).
 
@@ -81,7 +81,9 @@ nicely.
 The V-Bear one (`crates/v-bear-libretro/v_bear_libretro.info`) has `display_name = "Funtech - Super A'Can
 (V-Bear)"`, `manufacturer = "Funtech"`, `systemname = "Super A'Can"`, `systemid = "super_acan"`,
 `database = "Funtech - Super Acan"` (the name of the No-Intro set copied in libretro-database),
-`supported_extensions = "bin|can|zip|7z"`, `savestate = "true"` and `cheats = "false"`, and lists the four
+`supported_extensions = "bin|can|zip|7z"`, `license = "GPLv3"`, `needs_fullpath = "true"` (the core reads the file itself),
+`database_match_archive_member = "true"` (the playlist keeps the `.zip` or `.7z`, which Super Dragon Force needs),
+`savestate = "true"`, `cheats = "false"` and `core_options = "false"`, a short `description`, and lists the four
 BIOS files as `firmware0` to `firmware3`, with `supracan/<file>` paths. Whether RetroArch's content scanner
 recognizes the games through that database was not tested.
 
@@ -89,6 +91,21 @@ Two things that cost time: RetroArch **caches the core information**, so after c
 core can keep showing as `v_bear_libretro` with no description and the file browser keeps hiding `.bin`
 and `.can` files; clear RetroArch's core information cache and reopen it.
 The `.info` goes in RetroArch's `info/` folder.
+
+## Sending the core to libretro
+
+To get the core into RetroArch's Core Downloader, libretro asks for four things
+([documentation](https://docs.libretro.com/development/cores/developing-cores/#add-your-core-to-libretro-infrastructure)):
+
+- the `.info` file, sent as a pull request to `libretro-super` (`dist/info/`);
+- a `.gitlab-ci.yml` at the root of the repository, which is in this one: it builds only
+  `v-bear-libretro` with libretro's Rust templates, for Linux x64 and Windows x64, and renames the
+  library to `v_bear_libretro.so` / `.dll`;
+- a mirror of the repository on libretro's GitLab, which a maintainer creates on request (Discord, #programming);
+- optionally, the core's page in `libretro/docs`.
+
+The CI file has never been run: only libretro's servers can build it. There is no template for FreeBSD,
+so that build stays in this repository's release.
 
 ## Build and install
 

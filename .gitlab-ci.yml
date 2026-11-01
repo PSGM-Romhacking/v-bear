@@ -1,0 +1,49 @@
+# DESCRIPTION: GitLab CI/CD for libretro (NOT FOR GitLab-proper)
+#
+# Builds the V-Bear libretro core (crates/v-bear-libretro) with libretro's Rust CI templates.
+# The core is a Cargo workspace member, so only that package is built (the app needs ALSA).
+# Cargo names the library libv_bear_libretro.so / v_bear_libretro.dll; the templates expect
+# lib${CORENAME}.so, so the files are renamed here. CORENAME is "v_bear" so that the output is
+# v_bear_libretro.so / v_bear_libretro.dll, as in v_bear_libretro.info.
+
+# Core definitions
+.core-defs:
+  variables:
+    CORENAME: v_bear
+
+# Inclusion templates, required for the build to work
+include:
+  # Linux 64-bit
+  - project: 'libretro-infrastructure/ci-templates'
+    file: '/rust-linux-x64.yml'
+
+  # Windows 64-bit
+  - project: 'libretro-infrastructure/ci-templates'
+    file: '/rust-windows-x64.yml'
+
+stages:
+  - build-prepare
+  - build-shared
+  - build-static
+
+# Linux 64-bit
+libretro-build-linux-x64:
+  extends:
+    - .libretro-rust-linux-x64-default
+    - .core-defs
+  script:
+    - cargo build --release --target ${TARGET_ARCH} --package v-bear-libretro
+  after_script:
+    - mv target/${TARGET_ARCH}/release/libv_bear_libretro.so ${CORENAME}_libretro.so
+    - if [ $STRIP_CORE_LIB -eq 1 ]; then $STRIP --strip-unneeded ${CORENAME}_libretro.so; fi
+
+# Windows 64-bit
+libretro-build-windows-x64:
+  extends:
+    - .libretro-rust-windows-x64-default
+    - .core-defs
+  script:
+    - cargo build --release --target ${TARGET_ARCH} --package v-bear-libretro
+  after_script:
+    - mv target/${TARGET_ARCH}/release/v_bear_libretro.dll ${CORENAME}_libretro.dll
+    - if [ $STRIP_CORE_LIB -eq 1 ]; then $STRIP --strip-unneeded ${CORENAME}_libretro.dll; fi

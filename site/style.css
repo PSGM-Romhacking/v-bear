@@ -134,6 +134,7 @@ footer p { margin: 4px 0; }
 .game .n { display: block; margin-top: 6px; }
 .game .st { display: block; font-size: .8rem; font-weight: 600; color: var(--section); margin-bottom: 4px; }
 .game .st::before { content: "● "; }
+.game .st.warn { color: #c8a45a; }
 @media (max-width: 640px) { .games-grid { grid-template-columns: 1fr 1fr; } }
 table.dl td { vertical-align: middle; }
 table.dl td:first-child { font-weight: 600; white-space: nowrap; }

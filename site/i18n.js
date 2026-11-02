@@ -23,7 +23,8 @@
       compat_c_game: "Título", compat_c_year: "Ano", compat_c_players: "Jogadores", compat_c_save: "Save de bateria",
       compat_c_status: "Status", 
       st_run: "Rodando",
-      compat_ok: "✓ Jogável", sr_yes: "Sim, a testar", sr_ok: "✓ Testado", sr_unc: "Não confirmado",
+      st_frz: "Trava nas batalhas", st_rare: "Raramente trava", st_vis2: "Defeitos visuais", st_frzvis: "Trava nas batalhas · defeito visual",
+      compat_ok: "✓ Jogável",  sr_yes: "Sim, a testar", sr_ok: "✓ Testado", sr_unc: "Não confirmado",
       compat_none: "Nenhum jogo encontrado.",
       compat_crc: "CRC32 das cópias No-Intro. O Rebel Star também é reconhecido na ordem de bytes de cópias mais antigas (a3469172).",
 
@@ -71,7 +72,8 @@
       compat_c_game: "Título", compat_c_year: "Año", compat_c_players: "Jugadores", compat_c_save: "Partida de batería",
       compat_c_status: "Estado", 
       st_run: "Funcionando",
-      compat_ok: "✓ Jugable", sr_yes: "Sí, por probar", sr_ok: "✓ Probada", sr_unc: "Sin confirmar",
+      st_frz: "Se bloquea en los combates", st_rare: "Se bloquea raramente", st_vis2: "Fallos visuales", st_frzvis: "Se bloquea en los combates · fallo visual",
+      compat_ok: "✓ Jugable",  sr_yes: "Sí, por probar", sr_ok: "✓ Probada", sr_unc: "Sin confirmar",
       compat_none: "No se encontraron juegos.",
       compat_crc: "CRC32 de los volcados No-Intro. Rebel Star también se reconoce en el orden de bytes de copias más antiguas (a3469172).",
 

@@ -37,10 +37,10 @@ Os binários estão nas [releases](https://github.com/PSGM-Romhacking/v-bear/rel
 
 | Arquivo | Sistema |
 |---|---|
-| `v-bear-0.5.1-linux-x86_64.AppImage` | Linux x86-64 |
-| `v-bear-0.5.1-windows-x86_64.exe` | Windows 10 e 11, 64 bits |
-| `v-bear-0.5.1-freebsd-x86_64.tar.gz` | FreeBSD 14, x86-64 |
-| `v_bear_libretro-0.5.1-linux-x86_64.zip`, `-windows-x86_64.zip`, `-freebsd-x86_64.zip` | o núcleo libretro e seu `.info` |
+| `v-bear-0.5.2-linux-x86_64.AppImage` | Linux x86-64 |
+| `v-bear-0.5.2-windows-x86_64.exe` | Windows 10 e 11, 64 bits |
+| `v-bear-0.5.2-freebsd-x86_64.tar.gz` | FreeBSD 14, x86-64 |
+| `v_bear_libretro-0.5.2-linux-x86_64.zip`, `-windows-x86_64.zip`, `-freebsd-x86_64.zip` | o núcleo libretro e seu `.info` |
 | `SHA256SUMS` | somas de verificação de todos os arquivos |
 
 No Linux: dê `chmod +x` no AppImage e execute. As notas de cada versão vêm do [`CHANGELOG.md`](CHANGELOG.md).

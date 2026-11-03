@@ -2,7 +2,7 @@
 
 All notable changes to V-Bear.
 
-## [Unreleased]
+## [0.5.2] - 2026-11-03
 
 - **Magical Pool: the cue vanished in the shot-power menu.** A sprite's horizontal position wraps at 512 (MAME
   has the same rule, noting this game); V-Bear dropped the pixels past that edge, so a cue pulled back beyond

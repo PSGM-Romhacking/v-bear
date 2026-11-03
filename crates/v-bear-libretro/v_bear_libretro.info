@@ -12,7 +12,7 @@ systemid = "super_acan"
 database = "Funtech - Super Acan"
 license = "GPLv3"
 permissions = ""
-display_version = "0.5.1"
+display_version = "0.5.2"
 
 # Libretro Features
 supports_no_game = "false"

@@ -24,7 +24,7 @@ O resumo final mostra IRQs atendidos por nível, paleta/VRAM em uso, pico de áu
 Outras chaves: `V_BEAR_REGS`, `V_BEAR_VRAM=<palavra>`, `V_BEAR_SND=<end>`, `V_BEAR_LIVE=<quadro>`
 (rastreia o 68000), `V_BEAR_PCS`, `V_BEAR_DEBUG=snd,t65,dma,irq,watch,vregs,sndr,pal`,
 `V_BEAR_SNAPTEST=<quadro>` (savestate determinístico), `V_BEAR_RESET=<quadro>` (reinicia ali),
-`V_BEAR_RAM=<arquivo>` (grava os 64 KB da RAM de trabalho no fim, para comparar com `reference/`).
+`V_BEAR_STATE=<arquivo>` (parte de um save state gravado pela interface, para reproduzir um defeito do momento em que foi salvo), `V_BEAR_RAM=<arquivo>` (grava os 64 KB da RAM de trabalho no fim, para comparar com `reference/`).
 `V_BEAR_SHOT` sem `_EVERY` grava só a última tela, em PNG se o nome terminar em `.png`.
 
 ## 2026-10-21

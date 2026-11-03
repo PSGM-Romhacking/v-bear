@@ -94,7 +94,12 @@ impl App {
         self.speed = if fast { Speed::Fast } else { Speed::Normal };
         let mult = if fast { self.ff_speed } else { 1 };
         let mut ran = 0;
+        // Frames emulated in this tick and not shown by themselves (see `upload_blended`).
+        let mut skipped: Vec<Vec<u32>> = Vec::new();
         while now >= self.next_frame && ran < 3 * mult {
+            if ran > 0 && mult == 1 {
+                skipped.push(packed(&self.core.video()));
+            }
             if self.rewind_enabled && self.frame_no.is_multiple_of(REWIND_EVERY) {
                 if self.history.len() >= REWIND_MAX {
                     self.history.pop_front();
@@ -125,23 +130,71 @@ impl App {
             self.next_frame = now; // too far behind: don't try to catch up
         }
         if ran > 0 {
-            self.upload(ctx);
+            self.upload_blended(ctx, &skipped);
         }
     }
 
     pub(super) fn upload(&mut self, ctx: &egui::Context) {
+        self.upload_blended(ctx, &[]);
+    }
+
+    /// Shows the current frame. When the window could not keep up and several frames were
+    /// emulated before one could be shown, `skipped` has the earlier ones, and the picture is
+    /// their average with the current one: games that flicker a sprite every other frame (Journey
+    /// to the Laugh when the hero is hit) would otherwise show only the frames where it is hidden,
+    /// and the sprite would vanish; averaged, it shows half-transparent, as on a CRT.
+    pub(super) fn upload_blended(&mut self, ctx: &egui::Context, skipped: &[Vec<u32>]) {
         let v = self.core.video();
-        let mut rgb = Vec::with_capacity(v.width * v.height * 3);
-        for y in 0..v.height {
-            for &p in &v.pixels[y * v.pitch..y * v.pitch + v.width] {
-                rgb.extend_from_slice(&[(p >> 16) as u8, (p >> 8) as u8, p as u8]);
-            }
-        }
+        let rgb = rgb_blended(&v, skipped);
         let img = egui::ColorImage::from_rgb([v.width, v.height], &rgb);
         let opts = if self.filter == Filter::Crt { egui::TextureOptions::LINEAR } else { egui::TextureOptions::NEAREST };
         match &mut self.tex {
             Some(t) => t.set(img, opts),
             None => self.tex = Some(ctx.load_texture("screen", img, opts)),
         }
+    }
+}
+
+/// RGB bytes of `v`, averaged with the earlier frames in `skipped` (packed, `width` per row).
+fn rgb_blended(v: &emu_api::Frame, skipped: &[Vec<u32>]) -> Vec<u8> {
+    let mut rgb = Vec::with_capacity(v.width * v.height * 3);
+    let n = skipped.len() as u32 + 1;
+    for y in 0..v.height {
+        for (x, &p) in v.pixels[y * v.pitch..y * v.pitch + v.width].iter().enumerate() {
+            let (mut r, mut g, mut b) = ((p >> 16) & 0xFF, (p >> 8) & 0xFF, p & 0xFF);
+            for f in skipped {
+                let q = f.get(y * v.width + x).copied().unwrap_or(p);
+                r += (q >> 16) & 0xFF;
+                g += (q >> 8) & 0xFF;
+                b += q & 0xFF;
+            }
+            rgb.extend_from_slice(&[(r / n) as u8, (g / n) as u8, (b / n) as u8]);
+        }
+    }
+    rgb
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn frame(pixels: &[u32], w: usize, h: usize, pitch: usize) -> emu_api::Frame<'_> {
+        emu_api::Frame { pixels, width: w, height: h, pitch, aspect: 1.0 }
+    }
+
+    #[test]
+    fn one_frame_is_shown_as_is() {
+        let px = [0x0010_2030; 3];
+        let f = frame(&px, 2, 1, 3);
+        assert_eq!(rgb_blended(&f, &[]), vec![0x10, 0x20, 0x30, 0x10, 0x20, 0x30]);
+    }
+
+    #[test]
+    fn a_sprite_that_flickers_every_other_frame_does_not_vanish() {
+        // Frame A has the sprite (white), B hides it (black): showing only B loses it.
+        let px = [0x0000_0000];
+        let shown = frame(&px, 1, 1, 1);
+        let skipped = vec![vec![0x00FF_FFFF]];
+        assert_eq!(rgb_blended(&shown, &skipped), vec![127, 127, 127]);
     }
 }

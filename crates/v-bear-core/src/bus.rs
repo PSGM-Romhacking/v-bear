@@ -413,6 +413,9 @@ impl Bus {
         let mut src = cmd.src;
         let mut dst = cmd.dst;
         let local = (0xF4_0000..0xF6_0000).contains(&(dst & 0xFF_FFFF));
+        if crate::debug::on("sdma") {
+            eprintln!("SDMA {src:08X} -> {dst:08X} x{:X} line {}", cmd.count as u32 + 1, self.video.vpos);
+        }
         for _ in 0..=cmd.count {
             let w = if cmd.fill { 0 } else { self.read16(src) };
             if local {
@@ -426,7 +429,11 @@ impl Bus {
             dst = dst.wrapping_add(cmd.dst_inc as u32 * 2);
         }
         self.video.dma_done(src, dst);
-        self.stall += (cmd.count as u32 + 1) * 8;
+        // A word bound for the chip's own VRAM costs one four-clock bus cycle (the read): the UM6618
+        // writes it on its own bus, and up to two words are in flight (MiSTer um6619_dma.sv). A word
+        // for the CPU bus costs a read and a write.
+        let per: u32 = if local { 4 } else { 8 };
+        self.stall += (cmd.count as u32 + 1) * per;
     }
 
     /// UM6650: $EB0D03 is the address port, $EB0D01 the data port.

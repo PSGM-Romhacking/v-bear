@@ -24,7 +24,7 @@ The final summary shows IRQs serviced per level, palette/VRAM in use, audio peak
 Other keys: `V_BEAR_REGS`, `V_BEAR_VRAM=<word>`, `V_BEAR_SND=<addr>`, `V_BEAR_LIVE=<frame>`
 (traces the 68000), `V_BEAR_PCS`, `V_BEAR_DEBUG=snd,t65,dma,irq,watch,vregs,sndr,pal`,
 `V_BEAR_SNAPTEST=<frame>` (deterministic savestate), `V_BEAR_RESET=<frame>` (resets there),
-`V_BEAR_RAM=<file>` (writes the 64 KB of work RAM at the end, to compare with `reference/`).
+`V_BEAR_STATE=<file>` (starts from a save state written by the interface, to reproduce a bug from the moment it was saved), `V_BEAR_RAM=<file>` (writes the 64 KB of work RAM at the end, to compare with `reference/`).
 `V_BEAR_SHOT` without `_EVERY` writes only the last screen, as PNG if the name ends in `.png`.
 
 ## 2026-10-21

@@ -197,7 +197,9 @@ fn roz(v: &Video, y: usize, width: usize, out: &mut Layer) {
     let (mos_x, mos_y) = MOSAIC[(mode as usize >> 2) & 7];
     let wrap = mode & 0x20 != 0;
     let use_lines = tile_mode & 0x4000 != 0;
-    let use_y_lines = use_lines && tile_mode & 0x8000 != 0;
+    // Bit 15 alone turns on the per-line source row (Super Dragon Force's menus set 0x8500, with
+    // bit 14 clear, and rely on it to hide the frames they do not use); bit 14 adds the X tables.
+    let use_y_lines = tile_mode & 0x8000 != 0;
     let x_per_line = tile_mode & 0x0100 != 0 || bitmap || mode & 3 == 0;
 
     out.priority = (mode >> 13) as u8;
@@ -219,6 +221,11 @@ fn roz(v: &Video, y: usize, width: usize, out: &mut Layer) {
     let mut line_a = r(0xC) as i16 as i32;
     let mut scroll_x = if use_lines { v.roz_frame_x } else { scroll_x_reg };
     let mut scroll_y = scroll_y_reg;
+    if use_y_lines && !use_lines {
+        let hi = table(0x1E, y * 2) as u32;
+        let lo = table(0x1E, y * 2 + 1) as u32;
+        scroll_y = scroll_y.wrapping_add((hi << 16 | lo) as i32);
+    }
     if use_lines {
         if tile_mode & 0x0040 != 0 {
             // A zero in the first table turns the line off.
@@ -400,6 +407,9 @@ fn sprites(v: &Video, y: usize, width: usize) -> Sprites {
         let sx = pos(w[2]);
         let sy = pos(w[0]);
         let row = y as i32 - sy;
+        if row == 0 && (width_s != nw || height_s != nh) && crate::debug::on("sprscale") {
+            eprintln!("SPRSCALE #{i} {:04X} {:04X} {:04X} {:04X}: {nw}x{nh} drawn {width_s}x{height_s} at ({sx},{sy})", w[0], w[1], w[2], w[3]);
+        }
         if row < 0 || row >= height_s as i32 {
             continue;
         }
@@ -415,8 +425,11 @@ fn sprites(v: &Video, y: usize, width: usize) -> Sprites {
         let prio = ((w[2] >> 9) & 3) as u8;
 
         for d in 0..width_s {
-            let screen_x = sx + d as i32;
-            if screen_x < 0 || screen_x >= width as i32 {
+            // The horizontal position wraps at 512 (MAME: "magipool rolls back at 512 edge for
+            // the shot power menu"): a sprite that starts below -128 comes back in from the right
+            // side of the 9-bit space and its far end lands on the left of the screen.
+            let screen_x = (sx + d as i32) & 0x1FF;
+            if screen_x >= width as i32 {
                 continue;
             }
             let blk_d = d - d % mos_x as u32;
@@ -540,5 +553,49 @@ fn mix(layers: &[Layer; 7], spr: Option<&Sprites>, frame_masked: bool, x: usize)
         // A blend sprite keeps its palette row and adds only the pens, no carry.
         let under = if s.backup[x] != 0 { s.backup[x] } else { bg } & 0xF;
         (s_index & 0xF0) | (s_index.wrapping_add(under) & 0xF)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn put(v: &mut Video, word: usize, val: u16) {
+        v.vram[word * 2..word * 2 + 2].copy_from_slice(&val.to_be_bytes());
+    }
+
+    /// One sprite, 32 tiles wide (256 pixels), at the 9-bit position `x`; every tile is tile 1,
+    /// a solid 4bpp tile.
+    fn wide_sprite(x: u16) -> Video {
+        let mut v = Video::new();
+        v.regs[0x20 >> 1] = 0x0100; // sprite table at word 0x200
+        v.regs[0x22 >> 1] = 0; // one sprite
+        put(&mut v, 0x200, 0); // y = 0, height 1 tile
+        put(&mut v, 0x201, 5); // 1 << 5 = 32 tiles wide
+        put(&mut v, 0x202, x);
+        put(&mut v, 0x203, 0x1000); // tile map at word 0x2000
+        for t in 0..32 {
+            put(&mut v, 0x2000 + t, 1);
+        }
+        v.vram[32..64].fill(0x11); // tile 1: all pixels use pen 1
+        v
+    }
+
+    #[test]
+    fn sprite_position_wraps_at_512() {
+        // 0x17F is 383, not negative: the sprite starts at 383 and 129 of its pixels land past
+        // 511, which come back in at the left of the screen (Magical Pool's shot-power cue).
+        let s = sprites(&wide_sprite(0x17F), 0, 320);
+        assert!(s.index[..127].iter().all(|&i| i != 0), "the end of the sprite shows at the left");
+        assert_eq!(s.index[127], 0);
+        assert!(s.index[127..].iter().all(|&i| i == 0));
+    }
+
+    #[test]
+    fn sprite_negative_position_still_clips() {
+        // 0x1C0 is -64: its first 64 pixels are off the left edge, the rest is drawn from 0.
+        let s = sprites(&wide_sprite(0x1C0), 0, 320);
+        assert!(s.index[..192].iter().all(|&i| i != 0));
+        assert!(s.index[192..].iter().all(|&i| i == 0));
     }
 }

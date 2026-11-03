@@ -24,7 +24,7 @@ El resumen final muestra los IRQ atendidos por nivel, paleta/VRAM en uso, pico d
 Otras claves: `V_BEAR_REGS`, `V_BEAR_VRAM=<palabra>`, `V_BEAR_SND=<dir>`, `V_BEAR_LIVE=<cuadro>`
 (rastrea el 68000), `V_BEAR_PCS`, `V_BEAR_DEBUG=snd,t65,dma,irq,watch,vregs,sndr,pal`,
 `V_BEAR_SNAPTEST=<cuadro>` (savestate determinista), `V_BEAR_RESET=<cuadro>` (reinicia ahí),
-`V_BEAR_RAM=<archivo>` (graba los 64 KB de la RAM de trabajo al final, para comparar con `reference/`).
+`V_BEAR_STATE=<archivo>` (parte de un save state grabado por la interfaz, para reproducir un fallo del momento en que se guardó), `V_BEAR_RAM=<archivo>` (graba los 64 KB de la RAM de trabajo al final, para comparar con `reference/`).
 `V_BEAR_SHOT` sin `_EVERY` graba solo la última pantalla, en PNG si el nombre termina en `.png`.
 
 ## 2026-10-21

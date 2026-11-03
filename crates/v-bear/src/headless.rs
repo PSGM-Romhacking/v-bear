@@ -100,6 +100,21 @@ pub fn run() -> ExitCode {
             Err(e) => eprintln!("v-bear: {}: {e}", p.display()),
         }
     }
+    // V_BEAR_STATE=file: starts from a save state written by the interface (16-byte header
+    // included), to reproduce a bug from the exact moment it was saved.
+    if let Some(p) = std::env::var_os("V_BEAR_STATE") {
+        let loaded = std::fs::read(&p).map_err(|e| e.to_string()).and_then(|b| {
+            let payload = if b.len() > 16 && b[..4] == *b"EFST" { &b[16..] } else { &b[..] };
+            console.load_state(payload)
+        });
+        match loaded {
+            Ok(()) => println!("state: {}", std::path::Path::new(&p).display()),
+            Err(e) => {
+                eprintln!("v-bear: state {}: {e}", std::path::Path::new(&p).display());
+                return ExitCode::FAILURE;
+            }
+        }
+    }
     if let Some(n) = std::env::var("V_BEAR_TRACE").ok().and_then(|v| v.parse().ok()) {
         let after: u64 = std::env::var("V_BEAR_TRACE_AFTER").ok().and_then(|v| v.parse().ok()).unwrap_or(0);
         for _ in 0..after {
@@ -194,7 +209,7 @@ pub fn run() -> ExitCode {
             }
             if let Ok(a) = std::env::var("V_BEAR_VRAM") {
                 let a = usize::from_str_radix(&a, 16).unwrap_or(0);
-                let w: Vec<String> = (0..16).map(|i| format!("{:04X}", b.video.vram_word(a + i))).collect();
+                let w: Vec<String> = (0..std::env::var("V_BEAR_VRAMN").ok().and_then(|v| v.parse().ok()).unwrap_or(16)).map(|i| format!("{:04X}", b.video.vram_word(a + i))).collect();
                 println!("VRAM word {a:04X}: {}", w.join(" "));
             }
         }

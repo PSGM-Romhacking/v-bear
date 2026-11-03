@@ -176,6 +176,9 @@ impl Console {
             self.bus.snd.bus().pads[i] = pad.bits();
         }
         self.audio.samples.clear();
+        if crate::debug::on("vregs") {
+            eprintln!("--- frame {}", self.frame_no + 1);
+        }
         for line in 0..LINES {
             self.start_line(line);
             // The UM6618 builds the next line into a line buffer while this

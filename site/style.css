@@ -145,3 +145,8 @@ table.bios code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, mo
 table.bios th { font-size: .72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; text-align: right; padding: 6px 12px; }
 table.bios th:first-child { text-align: left; }
 table.bios th, table.bios td { padding-left: 10px; padding-right: 10px; }
+
+.sha { margin-top: 16px; }
+.sha summary { cursor: pointer; text-align: center; color: var(--muted, inherit); }
+.sha h4 { margin: 16px 0 4px; }
+.sha pre { overflow-x: auto; font-size: 12px; padding: 10px; background: rgba(128,128,128,.12); }

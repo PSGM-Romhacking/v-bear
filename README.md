@@ -41,7 +41,7 @@ The binaries are in the [releases](https://github.com/PSGM-Romhacking/v-bear/rel
 | `v-bear-0.5.2-windows-x86_64.exe` | Windows 10 and 11, 64-bit |
 | `v-bear-0.5.2-freebsd-x86_64.tar.gz` | FreeBSD 14, x86-64 |
 | `v_bear_libretro-0.5.2-linux-x86_64.zip`, `-windows-x86_64.zip`, `-freebsd-x86_64.zip` | the libretro core and its `.info` |
-| `SHA256SUMS` | checksums of every file |
+| `SHA256SUMS` | checksums of every file ([all versions](docs/checksums.md)) |
 
 On Linux: `chmod +x` the AppImage and run it. Each version's notes come from [`CHANGELOG.md`](CHANGELOG.md).
 There is no macOS version.

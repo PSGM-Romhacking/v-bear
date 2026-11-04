@@ -46,7 +46,7 @@
       cl11: "Journey to the Laugh: o herói não some mais ao tomar dano (visto no Windows).",
       cl12: "Sango Fighter: o horizonte está completo. Super Dragon Force: os menus não mostram mais molduras de outras telas.",
       cl_all: "Changelog completo →",
-      dl_btn: "Versões anteriores", 
+      dl_btn: "Versões anteriores", dl_sha: "SHA-256 de cada arquivo desta versão", dl_sha_how: "Confira com <code>sha256sum -c --ignore-missing SHA256SUMS</code> (Linux, FreeBSD) ou <code>Get-FileHash ARQUIVO -Algorithm SHA256</code> (Windows).", 
       foot_lic: "Software livre sob GPL-3.0 ou posterior.",
       foot_tm: "Super A'Can é marca de seus donos. O V-Bear não tem ligação com a Funtech.",
     },
@@ -96,7 +96,7 @@
       cl11: "Journey to the Laugh: el héroe ya no desaparece al recibir daño (visto en Windows).",
       cl12: "Sango Fighter: el horizonte está completo. Super Dragon Force: los menús ya no muestran marcos de otras pantallas.",
       cl_all: "Changelog completo (en portugués) →",
-      dl_btn: "Versiones anteriores", 
+      dl_btn: "Versiones anteriores", dl_sha: "SHA-256 de cada archivo de esta versión", dl_sha_how: "Comprueba con <code>sha256sum -c --ignore-missing SHA256SUMS</code> (Linux, FreeBSD) o <code>Get-FileHash ARCHIVO -Algorithm SHA256</code> (Windows).", 
       foot_lic: "Software libre bajo GPL-3.0 o posterior.",
       foot_tm: "Super A'Can es marca de sus dueños. V-Bear no está afiliado a Funtech.",
     }
